@@ -14,11 +14,8 @@ const handleSubmit = (e) => {
     };
     if (!user.username || !user.email || !user.password || !user.number) {
         alert("Please enter all required fields");
-
         return;
     }
-    console.log(user);
-    
     userApi.signup(user)
 };
 

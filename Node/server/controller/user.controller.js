@@ -36,7 +36,14 @@ const Signup = async (req, res) => {
                 <h1>Hello ${user.username}</h1>
                 <a href=localhost:8090/user/verify/${token}/${otp}> verify</a>
             </div>`;
-            await sandMail(email, "verify", html);
+            console.log(`<a href=localhost:8090/user/verify/${token}/${otp}> verify</a>
+            </div>`);
+
+            try {
+                await sandMail(email, "verify", html);
+            } catch (error) {
+                return res.status(400).json({ message: error.message });
+            }
 
             return res.status(201).json({
                 msg: 'user Created',
@@ -45,10 +52,7 @@ const Signup = async (req, res) => {
             });
         }
     } catch (error) {
-        console.log(error);
-
         res.status(500).json({ msg: "err", error: error.message });
-
     }
 };
 
@@ -93,7 +97,7 @@ const deleteUser = async (req, res) => {
     }
     catch (error) {
         console.log(error);
-        res.status(500).json({ msg: "err", error: error.message });
+        res.status(500).json({ msg: "err deleting user", error });
     }
 };
 
@@ -107,7 +111,6 @@ let verifyUser = async (req, res) => {
 
     if (otp == oldOtp) {
         let data = await User.findByIdAndUpdate(decode.id, { isVerified: true }, { new: true });
-        // otps.delete(decode.email);
         res.status(200).json({ msg: "User Verified", data });
     }
     else {
@@ -120,8 +123,24 @@ const getAdmins = async (req, res) => {
         let data = await User.find({ role: "ADMIN" });
         res.send(202).json(data);
     } catch (error) {
-        res.send(404).json({ msg: "ADMIN could not find", error: error.message });
+        res.send(404).json({ err: error.message });
     }
 };
 
-module.exports = { Signup, Login, getUser, deleteUser, verifyUser, getAdmins };
+// verify admin by superadmin
+const verifyAdmin = async (req, res) => {
+    let { adminId } = req.params;
+    try {
+        let user = await User.findByIdAndUpdate(adminId, { isAdmin: true }, { new: true });
+        try {
+            await sendMail(user.email, "account approvel", "<h1>account approved</h1>");
+        } catch (error) {
+            console.log(error.message);
+        }
+        res.status(200).json({ msg: "User verified as admin", user });
+    } catch (error) {
+        res.status(500).json({ err: error.message });
+    }
+};
+
+module.exports = { Signup, Login, getUser, deleteUser, verifyUser, getAdmins, verifyAdmin };

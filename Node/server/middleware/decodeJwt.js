@@ -1,8 +1,8 @@
-const jwt = require('jasonwebtoken');
+const jwt = require('jsonwebtoken');
 
 const decode = async (req, res, next) => {
-    let token = req.headers?.authorization?.split('')[1];
     try {
+        let token = req.headers?.authorization?.split('')[1];
         if (token) {
             let data = await jwt.verify(token, "private-key");
             try {

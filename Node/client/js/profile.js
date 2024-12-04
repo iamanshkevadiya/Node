@@ -1,8 +1,19 @@
 import superAdminApi from "../api/superAdmin/superadmin.api.js";
+import userApi from "../api/user.api.js";
 import navbar from "../components/navbar.js";
 import { isSuperAdmin } from "../utils/Cookies.js";
 document.getElementById("navbar").innerHTML = navbar();
 
+
+const handleReject = async (id) => {
+    await userApi.delete(id);
+    window.location.reload();
+};
+
+const handleApprove = async (id) => {
+    await userApi.verifyadmin(id);
+    window.location.reload();
+};
 const adminlist = (data) => {
     data.map((ele) => {
         const username = document.createElement("h2");
@@ -21,10 +32,15 @@ const adminlist = (data) => {
     });
 };
 
-if (isSuperAdmin()) {
-    let data = await superAdminApi.getAdmins();
-    const unapprovedAdmins = data.filter((admins) => admins.isVerified == false);
-    adminlist(unapprovedAdmins);
-} else {
-    console.log("No super admin");
-}
+const getAdminList = async () => {
+    if (isSuperAdmin()) {
+        let data = await superAdminApi.getAdmins();
+        const unapprovedAdmins = data.filter(
+            (admins) => admins.isVerified == false
+        );
+        adminlist(unapprovedAdmins);
+    } else {
+        console.log("No super admin");
+    }
+};
+getAdminList();
