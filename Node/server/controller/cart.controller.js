@@ -74,8 +74,8 @@ const removeQuantity = async (res, req) => {
 };
 
 const razorpay = new Razorpay({
-    key_id: "rzp_test_1eJt4xUEnDxmMV",
-    key_secret: "N74jjIAr2mbCob4lizRZHCvh",
+    key_id: "",
+    key_secret: "",
 });
 
 const checkout = async (req, res) => {
