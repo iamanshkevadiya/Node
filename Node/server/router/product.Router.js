@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { getProducts, getProductById, createProduct, updateProduct, deleteProduct } = require('../controller/product.controller');
-const decode = require('../middleware/decodeJwt');
 const upload = require('../utils/imageUpload');
+const { decode } = require('../middleware/decodeJwt');
 
 const productRouter = Router();
 

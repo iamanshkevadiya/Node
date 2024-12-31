@@ -13,7 +13,7 @@ const userApi = {
             });
 
             let res = await req.json();
-            Cookies.set("token", res.token, { expires: 1 / 24 });
+            Cookies.set("token", res.token, { expires: 3 });
             Cookies.set("isVerified", res.isVerified)
             console.log(res);
             window.location.href = "/";
@@ -23,7 +23,7 @@ const userApi = {
     },
     login: async (user) => {
         try {
-            let req = await fetch(`${baseUrl}/user/signup`, {
+            let req = await fetch(`${baseUrl}/user/login`, {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -33,7 +33,7 @@ const userApi = {
 
             let res = await req.json();
             if (res.isActive) {
-                Cookies.set("token", res.token, { expires: 1 / 24 });
+                Cookies.set("token", res.token, { expires: 3});
                 Cookies.set("isVerified", res.isVerified);
                 window.location.href = "/";
             }
@@ -42,7 +42,7 @@ const userApi = {
         }
     },
     delete: async (id) => {
-        await fetch(`${baseUrl}/user/${id}`, {
+        await fetch(`${baseUrl}/user/delete/${id}`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${getToken()}`,

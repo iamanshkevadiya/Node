@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/user.model');
-const sandMail = require('../service/sendMail');
+const sendMail = require('../service/sendMail');
 const otps = new Map();
 
 const Signup = async (req, res) => {
@@ -34,13 +34,13 @@ const Signup = async (req, res) => {
 
             let html = `<div> 
                 <h1>Hello ${user.username}</h1>
-                <a href=localhost:8090/user/verify/${token}/${otp}> verify</a>
+                <a href=http://localhost:8090/user/verify/${token}/${otp}> verify</a>
             </div>`;
-            console.log(`<a href=localhost:8090/user/verify/${token}/${otp}> verify</a>
+            console.log(`<a href=http://localhost:8090/user/verify/${token}/${otp}> verify</a>
             </div>`);
 
             try {
-                await sandMail(email, "verify", html);
+                await sendMail(email, "verify", html);
             } catch (error) {
                 return res.status(400).json({ message: error.message });
             }
@@ -59,7 +59,7 @@ const Signup = async (req, res) => {
 
 const Login = async (req, res) => {
     let { email, password } = req.body;
-    let user = await User.findOne({ email: email });
+    let user = await User.findOne({ email });
     if (!user) {
         return res.status(400).json({ msg: "User not found" });
     }

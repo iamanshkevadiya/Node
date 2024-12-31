@@ -12,11 +12,9 @@ const handleSubmit = (e) => {
     };
     if (!user.email || !user.password) {
         alert("Please enter all required fields");
-
         return;
     }
     console.log(user);
-
     userApi.login(user)
 };
 

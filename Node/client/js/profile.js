@@ -24,8 +24,10 @@ const adminlist = (data) => {
         number.innerHTML = ele.number;
         const approve = document.createElement("button");
         approve.innerHTML = "approve";
+        approve.addEventListener("click", () => handleApprove(ele._id));
         const reject = document.createElement("button");
         reject.innerHTML = "reject";
+        reject.addEventListener("click", () => handleReject(ele._id));
         const div = document.createElement("div");
         div.append(username, email, number, approve, reject);
         document.getElementById("adminlist").append(div);

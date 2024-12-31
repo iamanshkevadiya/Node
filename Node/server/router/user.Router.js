@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { getUser, Signup, Login, deleteUser, verifyUser, getAdmins, verifyAdmin } = require('../controller/user.controller');
-const decode = require('../middleware/decodeJwt');
 const { isSuperAdmin } = require('../middleware/admin');
+const { decode } = require('../middleware/decodeJwt');
 
 const userRouter = Router();
 

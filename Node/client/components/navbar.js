@@ -1,9 +1,11 @@
 let { token } = Cookies.get();
 
-const decodedToken = token != undefined ? jwt_decode(token) : undefined;
+const decodedToken = token !== undefined ? jwt_decode(token) : undefined;
+// const decodedToken = "node";
+// console.log(decodedToken, token,);
 
 const logOut = () => {
-  console.log("Docoded token");
+  console.log("Docoded token",decodedToken);
 
   Cookies.remove("token");
   window.location.href = "/pages/login.html";

@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const { getCommentByProductId, createComment, updateComment, deleteComment } = require('../controller/comment.controller');
-const decode = require('../middleware/decodeJwt');
+const { decode } = require('../middleware/decodeJwt');
+
 
 const commentRouter = Router();
 

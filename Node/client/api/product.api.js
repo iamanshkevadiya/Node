@@ -1,7 +1,7 @@
 import { getToken } from "../utils/Cookies.js";
 import { getBaseUrl } from "./config/api.config.js";
 
-const baseUrl = getBaseUrl();
+const baseUrl =  getBaseUrl;
 const productApi = {
     get: async () => {
         try {

@@ -1,8 +1,18 @@
 const Product = require("../models/product.model");
 
-const createProduct = async (req, res) => {
-    console.log(req.body, req.file);
 
+const getProducts = async (req, res) => {
+    try {
+        let product = await Product.find();
+        console.log(product);
+        
+        res.send(product);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+}
+
+const createProduct = async (req, res) => {
     if (req.file) {
         req.body.img = req.file.path;
     }
@@ -14,15 +24,6 @@ const createProduct = async (req, res) => {
         res.status(500).send(error.message);
     }
 
-}
-
-const getProducts = async (req, res) => {
-    try {
-        let product = await Product.find();
-        res.send(product);
-    } catch (error) {
-        res.status(500).send(error.message);
-    }
 }
 
 const getProductById = async (req, res) => {
@@ -38,9 +39,6 @@ const getProductById = async (req, res) => {
 const updateProduct = async (req, res) => {
     try {
         const { productId } = req.params;
-        if (req.file) {
-            req.body.img = req.file.path;
-        }
         let product = await Product.findByIdAndUpdate(productId, req.body, { new: true });
         res.send(product);
     } catch (error) {

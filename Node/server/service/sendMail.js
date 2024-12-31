@@ -5,25 +5,28 @@ require("dotenv").config();
 const transport = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASSWORD,
+        user: process.env.email,
+        pass: process.env.password,
     },
 });
 
-const sandMail = async (to, subject, form) => {
-    let mailOptions = {
-        from: process.env.EMAIL,
-        to: to,
-        subject: subject,
-        html: html,
-    };
-    await transport.sendMail(mailOptions, (err, result) => {
-        if (err) {
-            console.log("Error sending email", err);
-        } else {
-            console.log("Email sent successfully", result);
-        }
+const sendMail = async (to, subject, html) => {
+    return new Promise((resolve, reject) => {
+        let mailOptions = {
+            from: process.env.email,
+            to: to,
+            subject: subject,
+            html: html,
+        };
+        transport.sendMail(mailOptions, (err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+                console.log(result);
+            }
+        });
     });
 }
 
-module.exports = sandMail;
+module.exports = sendMail;

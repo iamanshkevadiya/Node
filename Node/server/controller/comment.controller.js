@@ -3,7 +3,7 @@ const Comment = require("../models/comment.model");
 const getCommentByProductId = async (req, res) => {
     try {
         const { productId } = req.params;
-        let comment = await Comment.find({ productId });
+        let comment = await Comment.find({ product: productId });
         res.status(200).send(comment);
     } catch (error) {
         res.status(500).send(error.message);
@@ -21,10 +21,9 @@ const createComment = async (req, res) => {
 }
 
 const updateComment = async (req, res) => {
+    let { commentId } = req.params;
     try {
-        let { commentId } = req.params;
         let comment = await Comment.findByIdAndUpdate(commentId, req.body, { new: true });
-        if (!comment) return res.status(404).send("Comment not found");
         res.send(comment);
     } catch (error) {
         res.status(500).send(error.message);
@@ -32,10 +31,9 @@ const updateComment = async (req, res) => {
 };
 
 const deleteComment = async (req, res) => {
+    let { commentId } = req.params;
     try {
-        let { commentId } = req.params;
         let comment = await Comment.findByIdAndDelete(commentId);
-        if (!comment) return res.status(404).send("Comment not found");
         res.send(comment);
     } catch (error) {
         res.status(500).send(error.message);
