@@ -25,7 +25,7 @@ const payment = async (amount) => {
     });
     let res = await req.json();
     const options = {
-      key: "rzp_test_1eJt4xUEnDxmMV",
+      key: "rzp_test_h6BhrSoCcUOci6",
       amount: res.amount,
     };
     const rpay = new Razorpay(options);
